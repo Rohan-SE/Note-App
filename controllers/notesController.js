@@ -4,7 +4,8 @@ const notesCreation = async(req,res)=>{
     try {
         const {content} = req.body
         if(!content){
-            return res.status(500);
+            req.flash('error',"Fill the field")
+            return res.redirect('/');
         }else{
             const noteObj = new notes({
                 content
@@ -41,7 +42,7 @@ const notesDelete = async(req,res)=>{
 
 const notesCreationDisplayPage = async(req,res)=>{
     const allNotes = await notes.find()
-    res.render('index',{allNotes})
+    res.render('index',{allNotes,error:req.flash('error')})
 }
 
 const editPage = async(req,res)=>{
